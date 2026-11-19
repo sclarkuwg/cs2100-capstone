@@ -1,9 +1,144 @@
 const API_ENDPOINTS = [
-  "https://dummyjson.com/products/category/womens-dresses",
   "https://dummyjson.com/products/category/tops",
+  "https://dummyjson.com/products/category/womens-dresses",
   "https://dummyjson.com/products/category/womens-bags",
   "https://dummyjson.com/products/category/womens-jewellery",
-  "https://dummyjson.com/products?limit=50",
+];
+
+const EXCLUDED_CATEGORIES = new Set([
+  "kitchen-accessories",
+  "home-decoration",
+  "furniture",
+  "groceries",
+  "smartphones",
+  "laptops",
+  "tablets",
+  "mobile-accessories",
+  "vehicle",
+  "motorcycle",
+  "lighting",
+  "beauty",
+  "skin-care",
+  "fragrances",
+  "mens-shirts",
+  "mens-shoes",
+  "mens-watches",
+]);
+
+const EXCLUDED_KEYWORDS = [
+  "sink",
+  "faucet",
+  "kitchen",
+  "basin",
+  "toilet",
+  "plumbing",
+  "mattress",
+  "sofa",
+  "couch",
+  "lamp",
+  "curtain",
+  "charger",
+  "iphone",
+  "laptop",
+  "macbook",
+  "perfume",
+  "mascara",
+  "lipstick",
+  "men's",
+  "mens",
+];
+
+const FEATURED_BOUTIQUE_ITEMS = [
+  {
+    id: 9001,
+    title: "MUSERA Black Fold-Over Flare Two-Piece Set",
+    price: 24.0,
+    rating: 4.9,
+    boutiqueCategory: "Matching Sets",
+    thumbnail: "musera-set.jpg",
+    description:
+      "Sculpting long-sleeve sweetheart crop top paired with fold-over waist bootcut flare pants in soft stretch fabric.",
+  },
+  {
+    id: 9002,
+    title: "AMPLOVA Cream & Black Lace Trim Mini Dress",
+    price: 28.0,
+    rating: 4.8,
+    boutiqueCategory: "Dresses",
+    thumbnail: "amplova-dress.jpg",
+    description:
+      "Fitted long-sleeve cream knit mini dress finished with delicate black eyelash lace along the neckline, cuffs, and hem.",
+  },
+  {
+    id: 9003,
+    title: "SLAYDIVA Brown Plaid Corset-Waist Collared Top",
+    price: 18.0,
+    rating: 4.9,
+    boutiqueCategory: "Tops",
+    thumbnail: "slaydiva-top.jpg",
+    description:
+      "Cap-sleeve brown tartan plaid collared blouse with a snatched pointed corset waist hem.",
+  },
+  {
+    id: 9004,
+    title: "YEOREO Tummy-Control Mini Flared Leggings",
+    price: 26.0,
+    rating: 4.9,
+    boutiqueCategory: "Bottoms",
+    thumbnail: "flared-leggings.jpg",
+    description:
+      "High-waisted sculpting black mini-flare leggings with a V-seam back and supportive tummy-control waistband.",
+  },
+  {
+    id: 9005,
+    title: "Seamless Butt-Lifting Wide-Leg Lounge Pants",
+    price: 29.0,
+    rating: 4.8,
+    boutiqueCategory: "Bottoms",
+    thumbnail: "wide-leg-pants.jpg",
+    description:
+      "Buttery-soft no-front-seam wide-leg pants in a flattering 33-inch length for everyday comfort.",
+  },
+  {
+    id: 9006,
+    title: "Black Side-Stripe Fold-Over Track Pants",
+    price: 25.0,
+    rating: 4.7,
+    boutiqueCategory: "Bottoms",
+    thumbnail: "side-stripe-pants.jpg",
+    description:
+      "Sporty-chic black fold-over waist flare pants accented with triple tonal racing stripes down the leg.",
+  },
+  {
+    id: 9007,
+    title: "Butter Yellow Polka-Dot & Carpe Diem Headband Set (3-Pack)",
+    price: 12.0,
+    rating: 4.8,
+    boutiqueCategory: "Accessories",
+    thumbnail: "butter-headbands.jpg",
+    description:
+      "Set of three wide stretch fabric headbands in brown polka-dot, pink script 'Carpe Diem', and silver eyelet grommets.",
+  },
+  {
+    id: 9008,
+    title: "Silver Rhinestone Statement Hair Clips (Pair)",
+    price: 10.0,
+    rating: 4.9,
+    boutiqueCategory: "Accessories",
+    thumbnail: "rhinestone-clips.jpg",
+    description:
+      "Sparkling pave crystal alligator hair barrettes with sleek silver-tone centers for glam sleek-back styles.",
+  },
+  {
+    id: 9009,
+    title: "Hot Pink Salon Sectioning Hair Clips (8-Pack)",
+    price: 9.0,
+    rating: 4.8,
+    boutiqueCategory: "Accessories",
+    thumbnail: "pink-salon-clips.jpg",
+    description:
+      "Set of eight glossy hot-pink alligator styling clips designed to hold curls, layers, and silk presses crease-free.",
+  },
 ];
 
 const state = {
@@ -38,87 +173,54 @@ const dom = {
   formSuccess: document.getElementById("form-success"),
 };
 
+function isOffThemeItem(rawProduct) {
+  const apiCat = (rawProduct.category || "").toLowerCase();
+  if (EXCLUDED_CATEGORIES.has(apiCat)) {
+    return true;
+  }
+  const text = `${apiCat} ${rawProduct.title || ""} ${rawProduct.description || ""}`.toLowerCase();
+  return EXCLUDED_KEYWORDS.some((word) => text.includes(word));
+}
+
 function mapToBoutiqueCategory(rawProduct) {
+  if (isOffThemeItem(rawProduct)) {
+    return null;
+  }
+
   const apiCat = (rawProduct.category || "").toLowerCase();
   const title = (rawProduct.title || "").toLowerCase();
   const desc = (rawProduct.description || "").toLowerCase();
   const combined = `${apiCat} ${title} ${desc}`;
 
-  if (combined.includes("set") || combined.includes("co-ord") || combined.includes("two-piece")) {
+  if (
+    combined.includes("matching set") ||
+    combined.includes("two-piece") ||
+    combined.includes("co-ord") ||
+    /\bset\b/.test(title)
+  ) {
     return "Matching Sets";
   }
-  if (apiCat === "womens-dresses" || combined.includes("dress") || combined.includes("gown")) {
+  if (apiCat === "womens-dresses" || /\bdress\b/.test(title) || /\bgown\b/.test(title)) {
     return "Dresses";
   }
   if (
-    combined.includes("skirt") ||
-    combined.includes("pant") ||
-    combined.includes("trouser") ||
-    combined.includes("jean") ||
-    combined.includes("short")
+    /\bskirt\b/.test(title) ||
+    /\bpants?\b/.test(title) ||
+    /\btrousers?\b/.test(title) ||
+    /\bjeans?\b/.test(title) ||
+    /\bshorts?\b/.test(title)
   ) {
     return "Bottoms";
   }
-  if (
-    apiCat === "tops" ||
-    combined.includes("top") ||
-    combined.includes("shirt") ||
-    combined.includes("blouse") ||
-    combined.includes("sweater") ||
-    combined.includes("jacket")
-  ) {
+  if (apiCat === "tops") {
     return "Tops";
   }
-  if (
-    apiCat.includes("bags") ||
-    apiCat.includes("jewellery") ||
-    apiCat.includes("watches") ||
-    apiCat.includes("sunglasses") ||
-    apiCat.includes("shoes")
-  ) {
+  if (apiCat === "womens-bags" || apiCat === "womens-jewellery") {
     return "Accessories";
   }
+
   return null;
 }
-
-const BOUTIQUE_ESSENTIALS = [
-  {
-    id: 9001,
-    title: "High-Waist Tailored Wide-Leg Trousers",
-    price: 54.0,
-    rating: 4.8,
-    boutiqueCategory: "Bottoms",
-    thumbnail: "https://cdn.dummyjson.com/product-images/tops/blue-frock/thumbnail.webp",
-    description: "Structured high-rise palazzo trousers with front pleats and an ankle-grazing drape.",
-  },
-  {
-    id: 9002,
-    title: "Satin Ribbed Knit Lounge Matching Set",
-    price: 68.0,
-    rating: 4.9,
-    boutiqueCategory: "Matching Sets",
-    thumbnail: "https://cdn.dummyjson.com/product-images/womens-dresses/dress-pea/thumbnail.webp",
-    description: "Coordinated cropped cardigan and high-waisted midi skirt set in soft stretch knit.",
-  },
-  {
-    id: 9003,
-    title: "Pleated Midi A-Line Skirt",
-    price: 46.0,
-    rating: 4.7,
-    boutiqueCategory: "Bottoms",
-    thumbnail: "https://cdn.dummyjson.com/product-images/tops/girl-summer-dress/thumbnail.webp",
-    description: "Flowy pleated midi skirt with an elasticized waistband for effortless day-to-night styling.",
-  },
-  {
-    id: 9004,
-    title: "Linen Blazer & Tailored Shorts Set",
-    price: 78.0,
-    rating: 4.85,
-    boutiqueCategory: "Matching Sets",
-    thumbnail: "https://cdn.dummyjson.com/product-images/womens-dresses/corset-with-black-skirt/thumbnail.webp",
-    description: "Breathable two-piece tailored blazer and high-waisted shorts ensemble.",
-  },
-];
 
 async function fetchBoutiqueInventory() {
   dom.resultsCount.textContent = "Loading boutique inventory...";
@@ -150,15 +252,15 @@ async function fetchBoutiqueInventory() {
           rating: Number(item.rating || 4.5),
           boutiqueCategory: mappedCategory,
           thumbnail: item.thumbnail || (item.images && item.images[0]) || "",
-          description: item.description || "Boutique apparel essential from Nina’s Kloset.",
+          description: item.description || "Boutique piece from Nina’s Kloset.",
         });
       }
     }
 
-    state.products = [...normalized, ...BOUTIQUE_ESSENTIALS];
+    state.products = [...FEATURED_BOUTIQUE_ITEMS, ...normalized];
   } catch (error) {
-    state.products = [...BOUTIQUE_ESSENTIALS];
-    dom.resultsCount.textContent = "Loaded offline boutique catalog.";
+    state.products = [...FEATURED_BOUTIQUE_ITEMS];
+    dom.resultsCount.textContent = "Loaded boutique catalog.";
   }
 
   updateCatalogView();
