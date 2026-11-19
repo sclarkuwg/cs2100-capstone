@@ -48,6 +48,7 @@ const EXCLUDED_KEYWORDS = [
   "mens",
 ];
 
+// Matches your exact uploaded filenames in cs2100-capstone
 const FEATURED_BOUTIQUE_ITEMS = [
   {
     id: 9001,
@@ -55,7 +56,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
     price: 24.0,
     rating: 4.9,
     boutiqueCategory: "Matching Sets",
-    thumbnail: "musera-set.jpg",
+    thumbnail: "musera-set.png",
     description:
       "Sculpting long-sleeve sweetheart crop top paired with fold-over waist bootcut flare pants in soft stretch fabric.",
   },
@@ -85,7 +86,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
     price: 26.0,
     rating: 4.9,
     boutiqueCategory: "Bottoms",
-    thumbnail: "flared-leggings.jpg",
+    thumbnail: "flated-leggings.jpg",
     description:
       "High-waisted sculpting black mini-flare leggings with a V-seam back and supportive tummy-control waistband.",
   },
