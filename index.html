@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nina’s Kloset | Women’s Boutique &amp; Apparel</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#shop-section">Skip to boutique catalog</a>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <div class="brand-block">
+        <span class="monogram" aria-hidden="true">NK</span>
+        <div>
+          <h1 class="brand-title">Nina’s Kloset</h1>
+          <p class="brand-tagline">Curated Women’s Fashion &amp; Apparel Essentials</p>
+        </div>
+      </div>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-list">
+          <li><a href="#top">Home</a></li>
+          <li><a href="#shop-section">Shop</a></li>
+          <li><a href="#about-section">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="shop-section" class="container main-layout">
+    <aside class="sidebar" aria-labelledby="filter-heading">
+      <h2 id="filter-heading" class="section-heading">Browse Wardrobe</h2>
+
+      <div class="search-box">
+        <label for="search-input">Search Boutique</label>
+        <input
+          type="search"
+          id="search-input"
+          name="search"
+          placeholder="Search tops, dresses, bags..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="category-group" role="group" aria-label="Wardrobe Categories">
+        <button type="button" class="cat-btn active" data-category="All" aria-pressed="true">All</button>
+        <button type="button" class="cat-btn" data-category="Tops" aria-pressed="false">Tops</button>
+        <button type="button" class="cat-btn" data-category="Bottoms" aria-pressed="false">Bottoms</button>
+        <button type="button" class="cat-btn" data-category="Matching Sets" aria-pressed="false">Matching Sets</button>
+        <button type="button" class="cat-btn" data-category="Dresses" aria-pressed="false">Dresses</button>
+        <button type="button" class="cat-btn" data-category="Accessories" aria-pressed="false">Accessories</button>
+      </div>
+    </aside>
+
+    <section class="catalog-area" aria-labelledby="catalog-heading">
+      <div class="catalog-toolbar">
+        <div>
+          <h2 id="catalog-heading" class="section-heading">New Arrivals &amp; Essentials</h2>
+          <p id="results-count" class="results-count" role="status" aria-live="polite">
+            Loading boutique inventory...
+          </p>
+        </div>
+
+        <div class="sort-box">
+          <label for="sort-select">Sort By</label>
+          <select id="sort-select" name="sort">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating-desc">Customer Rating</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="product-grid" class="product-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <section id="about-section" class="about-band" aria-labelledby="about-heading">
+    <div class="container">
+      <h2 id="about-heading" class="section-heading">About Nina’s Kloset</h2>
+      <p>
+        Nina’s Kloset delivers effortless boutique staples—from everyday tops and tailored bottoms
+        to matching sets, statement dresses, and finishing accessories. Select <strong>View</strong> on
+        any piece to inspect full garment details or submit a direct size and restock inquiry.
+      </p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2026 Nina’s Kloset. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="#top">Back to Top</a></li>
+        <li><a href="#shop-section">Shop Catalog</a></li>
+        <li><a href="#about-section">WCAG 2.1 AA Accessible Boutique</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <div
+    id="details-modal"
+    class="modal-backdrop"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-item-title"
+    hidden
+  >
+    <div class="modal-dialog">
+      <button type="button" id="close-modal-btn" class="modal-close" aria-label="Close item details">
+        &times;
+      </button>
+
+      <div class="modal-body">
+        <div class="modal-product">
+          <img id="modal-item-image" src="" alt="" class="modal-image" />
+          <span id="modal-item-category" class="badge"></span>
+          <h3 id="modal-item-title" class="modal-title"></h3>
+          <p id="modal-item-price" class="modal-price"></p>
+          <p id="modal-item-rating" class="modal-rating"></p>
+          <p id="modal-item-description" class="modal-description"></p>
+        </div>
+
+        <div class="modal-form-wrap">
+          <h3 class="form-heading">Size &amp; Restock Inquiry</h3>
+          <p class="form-subtext">Reserve your size or request a restock alert for this piece.</p>
+
+          <form id="inquiry-form" novalidate>
+            <div class="form-field">
+              <label for="full-name-input">Full Name *</label>
+              <input
+                type="text"
+                id="full-name-input"
+                name="fullName"
+                placeholder="e.g., Selena Clark"
+                aria-describedby="full-name-error"
+                required
+              />
+              <p id="full-name-error" class="error-msg" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="email-input">Email Address *</label>
+              <input
+                type="email"
+                id="email-input"
+                name="email"
+                placeholder="you@example.com"
+                aria-describedby="email-error"
+                required
+              />
+              <p id="email-error" class="error-msg" role="alert" aria-live="assertive"></p>
+            </div>
+
+            <fieldset class="size-fieldset" aria-describedby="size-error">
+              <legend>Select Size *</legend>
+              <div class="size-options">
+                <label class="size-pill"><input type="radio" name="size" value="XS" /> XS</label>
+                <label class="size-pill"><input type="radio" name="size" value="S" /> S</label>
+                <label class="size-pill"><input type="radio" name="size" value="M" /> M</label>
+                <label class="size-pill"><input type="radio" name="size" value="L" /> L</label>
+                <label class="size-pill"><input type="radio" name="size" value="XL" /> XL</label>
+              </div>
+              <p id="size-error" class="error-msg" role="alert" aria-live="assertive"></p>
+            </fieldset>
+
+            <button type="submit" class="btn-submit">Submit Inquiry</button>
+
+            <div id="form-success" class="success-banner" role="status" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
