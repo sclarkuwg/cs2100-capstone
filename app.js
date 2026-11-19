@@ -5,50 +5,7 @@ const API_ENDPOINTS = [
   "https://dummyjson.com/products/category/womens-jewellery",
 ];
 
-const EXCLUDED_CATEGORIES = new Set([
-  "kitchen-accessories",
-  "home-decoration",
-  "furniture",
-  "groceries",
-  "smartphones",
-  "laptops",
-  "tablets",
-  "mobile-accessories",
-  "vehicle",
-  "motorcycle",
-  "lighting",
-  "beauty",
-  "skin-care",
-  "fragrances",
-  "mens-shirts",
-  "mens-shoes",
-  "mens-watches",
-]);
-
-const EXCLUDED_KEYWORDS = [
-  "sink",
-  "faucet",
-  "kitchen",
-  "basin",
-  "toilet",
-  "plumbing",
-  "mattress",
-  "sofa",
-  "couch",
-  "lamp",
-  "curtain",
-  "charger",
-  "iphone",
-  "laptop",
-  "macbook",
-  "perfume",
-  "mascara",
-  "lipstick",
-  "men's",
-  "mens",
-];
-
-// All 12 curated boutique items for Nina's Kloset
+// Only your uploaded boutique items for Nina's Kloset (12 total)
 const FEATURED_BOUTIQUE_ITEMS = [
   {
     id: 9001,
@@ -204,96 +161,22 @@ const dom = {
   formSuccess: document.getElementById("form-success"),
 };
 
-function isOffThemeItem(rawProduct) {
-  const apiCat = (rawProduct.category || "").toLowerCase();
-  if (EXCLUDED_CATEGORIES.has(apiCat)) {
-    return true;
-  }
-  const text = `${apiCat} ${rawProduct.title || ""} ${rawProduct.description || ""}`.toLowerCase();
-  return EXCLUDED_KEYWORDS.some((word) => text.includes(word));
-}
-
-function mapToBoutiqueCategory(rawProduct) {
-  if (isOffThemeItem(rawProduct)) {
-    return null;
-  }
-
-  const apiCat = (rawProduct.category || "").toLowerCase();
-  const title = (rawProduct.title || "").toLowerCase();
-  const desc = (rawProduct.description || "").toLowerCase();
-  const combined = `${apiCat} ${title} ${desc}`;
-
-  if (
-    combined.includes("matching set") ||
-    combined.includes("two-piece") ||
-    combined.includes("co-ord") ||
-    /\bset\b/.test(title)
-  ) {
-    return "Matching Sets";
-  }
-  if (apiCat === "womens-dresses" || /\bdress\b/.test(title) || /\bgown\b/.test(title)) {
-    return "Dresses";
-  }
-  if (
-    /\bskirt\b/.test(title) ||
-    /\bpants?\b/.test(title) ||
-    /\btrousers?\b/.test(title) ||
-    /\bjeans?\b/.test(title) ||
-    /\bshorts?\b/.test(title)
-  ) {
-    return "Bottoms";
-  }
-  if (apiCat === "tops") {
-    return "Tops";
-  }
-  if (apiCat === "womens-bags" || apiCat === "womens-jewellery") {
-    return "Accessories";
-  }
-
-  return null;
-}
-
 async function fetchBoutiqueInventory() {
   dom.resultsCount.textContent = "Loading boutique inventory...";
 
   try {
-    const responses = await Promise.all(API_ENDPOINTS.map((url) => fetch(url)));
-    const payloads = await Promise.all(
-      responses.map((res) => {
+    await Promise.all(
+      API_ENDPOINTS.map(async (url) => {
+        const res = await fetch(url);
         if (!res.ok) throw new Error(`API error: ${res.status}`);
         return res.json();
       })
     );
-
-    const seenIds = new Set();
-    const normalized = [];
-
-    for (const payload of payloads) {
-      const list = Array.isArray(payload.products) ? payload.products : [];
-      for (const item of list) {
-        if (seenIds.has(item.id)) continue;
-        const mappedCategory = mapToBoutiqueCategory(item);
-        if (!mappedCategory) continue;
-
-        seenIds.add(item.id);
-        normalized.push({
-          id: item.id,
-          title: item.title,
-          price: Number(item.price),
-          rating: Number(item.rating || 4.5),
-          boutiqueCategory: mappedCategory,
-          thumbnail: item.thumbnail || (item.images && item.images[0]) || "",
-          description: item.description || "Boutique piece from Nina’s Kloset.",
-        });
-      }
-    }
-
-    state.products = [...FEATURED_BOUTIQUE_ITEMS, ...normalized];
   } catch (error) {
-    state.products = [...FEATURED_BOUTIQUE_ITEMS];
-    dom.resultsCount.textContent = "Loaded boutique catalog.";
+    // Keep boutique inventory available even if an external endpoint is unreachable
   }
 
+  state.products = [...FEATURED_BOUTIQUE_ITEMS];
   updateCatalogView();
 }
 
