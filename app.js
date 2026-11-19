@@ -48,10 +48,40 @@ const EXCLUDED_KEYWORDS = [
   "mens",
 ];
 
-// Matches your exact uploaded filenames in cs2100-capstone
+// All 12 curated boutique items for Nina's Kloset
 const FEATURED_BOUTIQUE_ITEMS = [
   {
     id: 9001,
+    title: "Pink Lace Doll Graphic Cheetah Mini Dress",
+    price: 32.0,
+    rating: 4.9,
+    boutiqueCategory: "Dresses",
+    thumbnail: "pink-graphic-dress.jpg",
+    description:
+      "Y2K pink ribbed mesh mini dress with delicate pink lace bustier trim, retro doll graphic, and leopard print hip accent.",
+  },
+  {
+    id: 9002,
+    title: "Pastel Pink & Butter Stripe Collared Romper",
+    price: 27.0,
+    rating: 4.9,
+    boutiqueCategory: "Matching Sets",
+    thumbnail: "striped-romper.jpg",
+    description:
+      "Fitted short-sleeve pastel pink and butter-yellow striped knit playsuit romper with plunge collar and button placket.",
+  },
+  {
+    id: 9003,
+    title: "Baroque Gold & Crimson Wing Print Mini Dress",
+    price: 30.0,
+    rating: 4.8,
+    boutiqueCategory: "Dresses",
+    thumbnail: "baroque-dress.jpg",
+    description:
+      "Long-sleeve bodycon mini dress featuring ornate gold baroque scrollwork, angel wings, and crimson sleeve contrast.",
+  },
+  {
+    id: 9004,
     title: "MUSERA Black Fold-Over Flare Two-Piece Set",
     price: 24.0,
     rating: 4.9,
@@ -61,7 +91,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Sculpting long-sleeve sweetheart crop top paired with fold-over waist bootcut flare pants in soft stretch fabric.",
   },
   {
-    id: 9002,
+    id: 9005,
     title: "AMPLOVA Cream & Black Lace Trim Mini Dress",
     price: 28.0,
     rating: 4.8,
@@ -71,7 +101,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Fitted long-sleeve cream knit mini dress finished with delicate black eyelash lace along the neckline, cuffs, and hem.",
   },
   {
-    id: 9003,
+    id: 9006,
     title: "SLAYDIVA Brown Plaid Corset-Waist Collared Top",
     price: 18.0,
     rating: 4.9,
@@ -81,7 +111,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Cap-sleeve brown tartan plaid collared blouse with a snatched pointed corset waist hem.",
   },
   {
-    id: 9004,
+    id: 9007,
     title: "YEOREO Tummy-Control Mini Flared Leggings",
     price: 26.0,
     rating: 4.9,
@@ -91,7 +121,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "High-waisted sculpting black mini-flare leggings with a V-seam back and supportive tummy-control waistband.",
   },
   {
-    id: 9005,
+    id: 9008,
     title: "Seamless Butt-Lifting Wide-Leg Lounge Pants",
     price: 29.0,
     rating: 4.8,
@@ -101,7 +131,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Buttery-soft no-front-seam wide-leg pants in a flattering 33-inch length for everyday comfort.",
   },
   {
-    id: 9006,
+    id: 9009,
     title: "Black Side-Stripe Fold-Over Track Pants",
     price: 25.0,
     rating: 4.7,
@@ -111,7 +141,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Sporty-chic black fold-over waist flare pants accented with triple tonal racing stripes down the leg.",
   },
   {
-    id: 9007,
+    id: 9010,
     title: "Butter Yellow Polka-Dot & Carpe Diem Headband Set (3-Pack)",
     price: 12.0,
     rating: 4.8,
@@ -121,7 +151,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Set of three wide stretch fabric headbands in brown polka-dot, pink script 'Carpe Diem', and silver eyelet grommets.",
   },
   {
-    id: 9008,
+    id: 9011,
     title: "Silver Rhinestone Statement Hair Clips (Pair)",
     price: 10.0,
     rating: 4.9,
@@ -131,7 +161,7 @@ const FEATURED_BOUTIQUE_ITEMS = [
       "Sparkling pave crystal alligator hair barrettes with sleek silver-tone centers for glam sleek-back styles.",
   },
   {
-    id: 9009,
+    id: 9012,
     title: "Hot Pink Salon Sectioning Hair Clips (8-Pack)",
     price: 9.0,
     rating: 4.8,
