@@ -5,7 +5,6 @@ const API_ENDPOINTS = [
   "https://dummyjson.com/products/category/womens-jewellery",
 ];
 
-// Only your uploaded boutique items for Nina's Kloset (12 total)
 const FEATURED_BOUTIQUE_ITEMS = [
   {
     id: 9001,
@@ -69,13 +68,13 @@ const FEATURED_BOUTIQUE_ITEMS = [
   },
   {
     id: 9007,
-    title: "YEOREO Tummy-Control Mini Flared Leggings",
+    title: "Cream Ribbed Knit Faux-Fur Collar Wrap Top",
     price: 26.0,
     rating: 4.9,
-    boutiqueCategory: "Bottoms",
-    thumbnail: "flated-leggings.jpg",
+    boutiqueCategory: "Tops",
+    thumbnail: "fur-trim-top.jpg",
     description:
-      "High-waisted sculpting black mini-flare leggings with a V-seam back and supportive tummy-control waistband.",
+      "Fitted long-sleeve cream ribbed knit wrap sweater top trimmed with a plush faux-fur shawl collar.",
   },
   {
     id: 9008,
